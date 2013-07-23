@@ -1,6 +1,9 @@
 var constants = {
    'speed_of_light': 299792458, // meters per second
-   'earth_radius': 8504
+   'earth_radius': 8504,
+   'earth_radius_miles': 3958.75,
+   'deg2rad': 0.01745329252, // Factor to convert decimal degrees to radians
+   'rad2deg': 57.29577951308 // Factor to convert decimal degrees to radians
 };
 
 (function (rfanalysis) {
@@ -92,4 +95,67 @@ function calcOffset(distance,resolution) {
 	}
 	
 	console.log(offset);
+}
+
+
+function gc(lat1,lon1,bearing,distance) {
+	// Convert to radians
+	lat1 = lat1 * constants.deg2rad;
+	lon1 = lon1 * constants.deg2rad;
+	bearing = bearing * constants.deg2rad;
+	
+	// Convert arc distance to radians
+	c = distance / constants.earth_radius_miles;
+	
+	y2 = Math.asin( Math.sin(lon1) * Math.cos(c) + Math.cos(lon1) * Math.sin(c) * Math.cos(bearing)) * constants.rad2deg;
+	
+	a = Math.sin(c) * Math.sin(bearing);
+	b = Math.cos(lon1) * Math.cos(c) - Math.sin(lon1) * Math.sin(c) * Math.cos(bearing);
+	
+	if( b == 0 )
+		x2 = lat1;
+	else
+		x2 = lat1 + Math.atan(a/b) * constants.rad2deg;
+	
+	console.log("Starting at ("+lat1.toFixed(5)+","+x2.toFixed(5)+") at bearing "+bearing+" degrees, distance "+distance+", Ending at ("+x2.toFixed(5)+","+y2.toFixed(5)+")");
+	//console.log("X2="+x2+", Y2="+y2);
+	// return x2,y2;
+}
+
+function d(lat1,lon1,bearing,d) {
+	// Convert to radians
+	//lat1 = lat1 * constants.deg2rad;
+	//lon1 = lon1 * constants.deg2rad;
+	//bearing = bearing * constants.deg2rad;
+	
+	R = constants.earth_radius_miles;
+//	R = constants.earth_radius;
+	var lat2 = Math.asin( Math.sin(lat1)*Math.cos(d/R) + Math.cos(lat1)*Math.sin(d/R)*Math.cos(bearing) );
+	var lon2 = lon1 + Math.atan2(Math.sin(bearing)*Math.sin(d/R)*Math.cos(lat1), Math.cos(d/R)-Math.sin(lat1)*Math.sin(lat2));
+	lat2 = lat2 * constants.deg2rad;
+	lon2 = lon2 * constants.deg2rad;
+//	lat2 = lat2 * constants.rad2deg;
+//	lon2 = lon2 * constants.rad2deg;
+	console.log("Starting at ("+lat1.toFixed(5)+","+lon1.toFixed(5)+") at bearing "+bearing+" degrees, distance "+d+", Ending at ("+lat2.toFixed(5)+","+lon2.toFixed(5)+")");	
+}
+
+function orthoDestCalc(lat1,lon1,bearing,d) {
+    var latStart = lat1;
+    var lonStart = lon1;
+    var brng = bearing;
+    var dist = d;
+    var p1 = new LatLon(latStart, lonStart);
+    var p2 = p1.destinationPoint(brng, dist);
+    var brngFinal = p1.finalBearingTo(p2);
+    //$('#ortho-dest .result-point').html(p2.toString(degFmt));
+    //$('#ortho-dest .result-brng').html(Geo.toBrng(brngFinal,degFmt));
+	console.log(p2.toString('dms'),",name");
+    //console.log("Starting at ("+lat1.toFixed(5)+","+lon1.toFixed(5)+") at bearing "+bearing+" degrees, distance "+d+", Ending at "+p2.toString('dms'));	
+  }
+
+function calcPointsOnGreatCircle(lat1,lon1,stepBy,d) {
+	console.log("latitude,longitude,name");
+	for (var n=0; n<=360;n+=stepBy) {
+		orthoDestCalc(lat1,lon1,n,d);
+	}
 }

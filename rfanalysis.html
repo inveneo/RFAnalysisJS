@@ -1,6 +1,8 @@
 <html>
 <head>
 <script src="rfanalysis.js" type="text/javascript"></script>
+<script src="latlon.js" type="text/javascript"></script>
+<script src="geo.js" type="text/javascript"></script>
 </head>
 <body>
 <script>
@@ -11,14 +13,16 @@ var frequencyGHz = 5.5; // GHz
 var clearZonePercent = 0.6; // Clear Fresnel Zone radius
 var fresnelZoneNumber = 1;
 
-calcFresnelZone(linkLengthKm,dist1M,frequencyGHz,clearZonePercent,fresnelZoneNumber,function(data){
-    console.log(data);
-});
 
 var lat1 = 45.5494029;
 var lon1 = -122.6193513;
 var lat2 = 44.0875196;
 var lon2 = -121.3210375;
+
+/*
+calcFresnelZone(linkLengthKm,dist1M,frequencyGHz,clearZonePercent,fresnelZoneNumber,function(data){
+    console.log(data);
+});
 
 calcDistance(lat1,lon1,lat2,lon2,function(data){
     console.log(data);
@@ -30,6 +34,11 @@ console.log(distance);
 
 var resolution = 1000; // point distance in meters
 calcOffset(distance,resolution);
+*/
+
+//d(59,122,10,10);
+var stepBy = 20;
+calcPointsOnGreatCircle(lat1,lon1,stepBy,10);
 
 </script>
 <div id="
