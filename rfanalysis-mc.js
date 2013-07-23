@@ -104,8 +104,8 @@ Link.prototype.elevationAnalysis = function (elevationArray)
   var lineOfSiteDrawingLength = lineOfSiteLine.getTotalLength();
   
   var fresnelPath = this.getFresnelPath(lineOfSiteDrawingLength,beginPoint,endPoint);
-  var fresnelShape = elevationGraphPaper.path(fresnelPath);
-  fresnelShape.attr({fill:"#ff6633", opacity:0.7});
+  //var fresnelShape = elevationGraphPaper.path(fresnelPath);
+  //fresnelShape.attr({fill:"#ff6633", opacity:0.7});
   //add ellipse to the line
   
   var centerPoint = lineOfSiteLine.getPointAtLength(lineOfSiteDrawingLength/2);
