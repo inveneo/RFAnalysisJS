@@ -122,6 +122,7 @@ function gc(lat1,lon1,bearing,distance) {
 	// return x2,y2;
 }
 
+/*
 function d(lat1,lon1,bearing,d) {
 	// Convert to radians
 	//lat1 = lat1 * constants.deg2rad;
@@ -138,22 +139,22 @@ function d(lat1,lon1,bearing,d) {
 //	lon2 = lon2 * constants.rad2deg;
 	console.log("Starting at ("+lat1.toFixed(5)+","+lon1.toFixed(5)+") at bearing "+bearing+" degrees, distance "+d+", Ending at ("+lat2.toFixed(5)+","+lon2.toFixed(5)+")");	
 }
+*/
 
-function orthoDestCalc(lat1,lon1,bearing,d) {
-    var latStart = lat1;
-    var lonStart = lon1;
-    var brng = bearing;
-    var dist = d;
-    var p1 = new LatLon(latStart, lonStart);
-    var p2 = p1.destinationPoint(brng, dist);
-    var brngFinal = p1.finalBearingTo(p2);
-    //$('#ortho-dest .result-point').html(p2.toString(degFmt));
-    //$('#ortho-dest .result-brng').html(Geo.toBrng(brngFinal,degFmt));
+// from: http://www.movable-type.co.uk/scripts/latlong.html
+function orthoDestCalc(lat1,lon1,bearing,dist) {
+    var p1 = new LatLon(lat1, lon1);
+    var p2 = p1.destinationPoint(bearing, dist);
+    var bearingFinal = p1.finalBearingTo(p2);
+    // 'dms' or 'd'
 	console.log(p2.toString('dms'),",name");
-    //console.log("Starting at ("+lat1.toFixed(5)+","+lon1.toFixed(5)+") at bearing "+bearing+" degrees, distance "+d+", Ending at "+p2.toString('dms'));	
+    // console.log("Starting at ("+lat1.toFixed(5)+","+lon1.toFixed(5)+") at bearing "+bearing+" degrees, distance "+d+", Ending at "+p2.toString('dms'));	
   }
 
 function calcPointsOnGreatCircle(lat1,lon1,stepBy,d) {
+	// you can validate that these GPS points do indeed form a circle around the
+	// center (lat1,lon1) by copying/pasting this console.log output (and the
+	// output in the orthoDestCalc function) into http://www.gpsvisualizer.com
 	console.log("latitude,longitude,name");
 	for (var n=0; n<=360;n+=stepBy) {
 		orthoDestCalc(lat1,lon1,n,d);
