@@ -1,11 +1,10 @@
 <html>
 <head>
 <script src="rfanalysis.js" type="text/javascript"></script>
-<!--
+<!-- The latlon.js and geo.js libraries are (c) Chris Veness 2002-2012 and available at:  http://www.movable-type.co.uk/scripts/latlong.html -->
 <script src="latlon.js" type="text/javascript"></script>
-
 <script src="geo.js" type="text/javascript"></script>
--->
+
 </head>
 <body>
 <script>
@@ -40,7 +39,7 @@ calcOffset(distance,resolution);
 */
 
 var stepBy = 15; // degrees to increment by, starting at 0
-calcPointsOnGreatCircle(lat1,lon1,stepBy,10);
+calcPointsOnGreatCircle(lat1,lon1,stepBy,200);
 
 </script>
 <div id="

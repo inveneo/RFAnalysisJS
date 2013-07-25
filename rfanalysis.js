@@ -1,3 +1,7 @@
+/*
+ * This libray uses a variety of calculations for latitude/longitude points
+ * (c) Chris Veness 2002-2012 available at:  http://www.movable-type.co.uk/scripts/latlong.html
+ */
 var constants = {
    'speed_of_light': 299792458, // meters per second
    'earth_radius': 8504,
@@ -154,7 +158,7 @@ function orthoDestCalc(lat1,lon1,bearing,dist) {
 function calcPointsOnGreatCircle(lat1,lon1,stepBy,d) {
 	// you can validate that these GPS points do indeed form a circle around the
 	// center (lat1,lon1) by copying/pasting this console.log output (and the
-	// output in the orthoDestCalc function) into http://www.gpsvisualizer.com
+	// output in the orthoDestCalc function) into http://www.gpsvisualizer.com/map_input?form=google
 	console.log("latitude,longitude,name");
 	for (var n=0; n<=360;n+=stepBy) {
 		orthoDestCalc(lat1,lon1,n,d);
