@@ -14,7 +14,7 @@ Link generates a Link object
 */
 function Link(x1,y1,x2,y2,frequency,t1,t2,fresnelZoneNumber) 
 {
-  fresnelZoneNumber = typeof fresnelZoneNumber !== 'undefined' ? a : 1; //if fresnelZoneNumber not specified, = 1
+  fresnelZoneNumber = typeof fresnelZoneNumber !== 'undefined' ? fresnelZoneNumber : 1; //if fresnelZoneNumber not specified, = 1
   
   this.x1 = x1;
   this.y1 = y1;
@@ -28,6 +28,7 @@ function Link(x1,y1,x2,y2,frequency,t1,t2,fresnelZoneNumber)
   this.setLinkLength(x1,y1,x2,y2);
   this.setLambda(frequency);
   console.log("Link object created");
+  console.log("Link is " + this.linkLength + "km");
 }
 
 // @param point is length from left to right in meters
@@ -37,6 +38,7 @@ Link.prototype.getFresnelZoneHeightAtPoint = function(point)
   var dist1M = point;
   console.log("dist1M = " + dist1M);
   var dist2M = ((this.linkLength * 1000 ) - dist1M);
+  //var dist2M = ((this.linkLength) - dist1M);
   //console.log("dist1M + dist2M = " +  (dist1M + dist2M));
   console.log("dist2M = " + dist2M);
   console.log("Math.sqrt(( "+this.fresnelZoneNumber+" * "+this.lambda+ " * " + dist1M + " * " + dist2M+' )/( ' +dist1M +" + " + dist2M+"))");
@@ -72,12 +74,12 @@ Link.prototype.elevationAnalysis = function (elevationArray)
   }
   
   //setting paper
-  var elevationGraphPaper = Raphael("elevationGraphPaper", 1020, 1560);
+  var elevationGraphPaper = Raphael("elevationGraphPaper", 1560,1020 );
 
   var lineOfSite1 = elevationArray[0] + this.t1;
   var lineOfSite2 = elevationArray[elevationArray.length-1]+this.t2;
   console.log("lineOfSite1="+lineOfSite1+" | lineOfSite2="+lineOfSite2);
-  var lines = elevationGraphPaper.linechart(20, 20, 900, 420, [arrayX,[arrayX[0],arrayX[arrayX.length-1]]], [elevationArray,[lineOfSite1,lineOfSite2]], { nostroke: false, symbol: "circle", axis: "0 0 1 1", smooth: true }).hoverColumn(function () {
+  var lines = elevationGraphPaper.linechart(20, 20, 1500, 300, [arrayX,[arrayX[0],arrayX[arrayX.length-1]]], [elevationArray,[lineOfSite1,lineOfSite2]], { nostroke: false, symbol: "circle", axis: "0 0 1 1", smooth: true }).hoverColumn(function () {
       this.tags = elevationGraphPaper.set();
 
       for (var i = 0, ii = this.y.length; i < ii; i++) {
@@ -101,11 +103,21 @@ Link.prototype.elevationAnalysis = function (elevationArray)
   lines.symbols[0][arrayX.length-1].animate({fill: "#f00"}, 1000);
   
   var lineOfSiteLine = lines.lines[1];
+  var lineOfSitePointBegin = lineOfSiteLine.getPointAtLength(0,0);
+  var lineOfSitePointEnd =  lineOfSiteLine.getPointAtLength(lineOfSiteLine.getTotalLength());
   var lineOfSiteDrawingLength = lineOfSiteLine.getTotalLength();
-  
-  var fresnelPath = this.getFresnelPath(lineOfSiteDrawingLength,beginPoint,endPoint);
-  //var fresnelShape = elevationGraphPaper.path(fresnelPath);
-  //fresnelShape.attr({fill:"#ff6633", opacity:0.7});
+  var fresnelAngle = Raphael.angle(lineOfSitePointBegin.x,lineOfSitePointBegin.y,lineOfSitePointEnd.x,lineOfSitePointEnd.y);
+  var fresnelPath = this.getFresnelPath(lineOfSiteDrawingLength,lineOfSitePointBegin,lineOfSitePointEnd);
+  var fresnelShape = elevationGraphPaper.path(fresnelPath);
+  //var fresnelShape = elevationGraphPaper.path("M 0 0 L 0,0L20,0L,40,100z");
+  fresnelShape.attr({fill:"#ff6633", opacity:0.5});
+  //fresnelShape.rotate(fresnelAngle);
+  var shapeBeginPoint = fresnelShape.getPointAtLength(0);
+  var translateX=shapeBeginPoint.x-lineOfSitePointBegin.x;
+  var translateY = shapeBeginPoint.y-lineOfSitePointBegin.y;
+  console.log("translateX = " + (translateX) + " | translateY ="+(translateY));
+  //fresnelShape.transform("t"+translateX+","+translateY+"r"+fresnelAngle);
+  fresnelShape.transform("r"+(fresnelAngle+180)+","+shapeBeginPoint.x+","+shapeBeginPoint.y+"T"+lineOfSitePointBegin.x+","+lineOfSitePointBegin.y);
   //add ellipse to the line
   
   var centerPoint = lineOfSiteLine.getPointAtLength(lineOfSiteDrawingLength/2);
@@ -113,7 +125,8 @@ Link.prototype.elevationAnalysis = function (elevationArray)
   console.log(lineBBox);
   
   
-  var retEllipse = elevationGraphPaper.ellipse(centerPoint.x,centerPoint.y,lineOfSiteDrawingLength/2,50);
+  /*
+var retEllipse = elevationGraphPaper.ellipse(centerPoint.x,centerPoint.y,lineOfSiteDrawingLength/2,50);
   var x1 = beginPoint.x;
   var y1 = beginPoint.y;
   var x2 = endPoint.x;
@@ -121,29 +134,43 @@ Link.prototype.elevationAnalysis = function (elevationArray)
   var ellipseAngle = Raphael.angle(x1,y1,x2,y2);
   console.log("ellipse angle is = " + ellipseAngle);
   retEllipse.attr({fill:"#aaa", opacity:0.3});
-  retEllipse.rotate(ellipseAngle);
+  retEllipse.transform("r"+ellipseAngle+"t");
   retEllipse.toBack();
+*/
 }
 
 Link.prototype.getFresnelPath = function (lineOfSiteDrawingLength,beginPoint,endPoint) 
 {
-	//var pathString = "M" +beginPoint.x + "," +beginPoint.y;
-	var pathString = "M150 600";
+	//var pathString = "M " +beginPoint.x + " " +beginPoint.y + " ";
+	var pathString = "M 0 0 ";
 	var numberOfSegments = 20;
 	var lengthPerSegmentD = lineOfSiteDrawingLength/numberOfSegments;
 	var linkLengthM = this.linkLength*1000;
 	var lengthPerSegmentM = lengthPerSegmentD*linkLengthM/lineOfSiteDrawingLength;
+	console.log("LengthPerSegmentM = " + lengthPerSegmentM);
 	
-	for(i=1; i<=numberOfSegments; i++)
+	
+	for(i=0; i<numberOfSegments; i++)
 	{
 		
-		var xChangeDrawing = (lengthPerSegmentD*i);
+		var xChangeDrawing = lengthPerSegmentD*i;
 		var xChangeM = lengthPerSegmentM*i;
 		var yChangeM = this.getFresnelZoneHeightAtPoint(xChangeM);
 		var yChangeDrawing = yChangeM*lineOfSiteDrawingLength/linkLengthM;
-		pathString += "L"+ xChangeDrawing + " " + yChangeDrawing ;
+		pathString += "L "+ (xChangeDrawing) + " " + (yChangeDrawing)+" " ;
 	}
-	pathString += "Z";
+	for(i=numberOfSegments; i>=0; i--)
+	{
+		
+		var xChangeDrawing = lengthPerSegmentD*i;
+		var xChangeM = lengthPerSegmentM*i;
+		var yChangeM = this.getFresnelZoneHeightAtPoint(xChangeM);
+		var yChangeDrawing = yChangeM*lineOfSiteDrawingLength/linkLengthM;
+		pathString += "L " + (xChangeDrawing)+ " " + "-"+(yChangeDrawing)+" " ;
+	}
+	
+
+	pathString +=" Z";
 	console.log(pathString);
 	return pathString;
 }
