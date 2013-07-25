@@ -64,8 +64,27 @@ Link.prototype.setLinkLength = function (x1,y1,x2,y2)
   this.linkLength = d;
 }
 
-Link.prototype.elevationAnalysis = function (elevationArray)
+Link.prototype.elevationAnalysis = function (elevationObj)
 {
+	//create array to be used in the linechart function
+  var elevationArray = [];
+  var elevationLatArray = [];
+  var elevationLngArray = [];
+  for(i=0; i<elevationObj.length; i++)
+  {
+	  elevationArray.push(elevationObj[i].elevation);
+	  elevationLatArray.push(elevationObj[i].location.lat);
+	  elevationLngArray.push(elevationObj[i].location.lng);
+  }
+  console.log("elevationObj follows:");
+  console.log(elevationObj);
+  console.log("elevationArray follows:");
+  console.log(elevationArray);
+  console.log("elevationLatArray follows:");
+  console.log(elevationLatArray);
+  console.log("elevationLngArray follows:");
+  console.log(elevationLngArray);
+
 	//create x axis array based on number of elevation points
   var arrayX= [];
   for(i=0; i<elevationArray.length; i++)
@@ -76,14 +95,18 @@ Link.prototype.elevationAnalysis = function (elevationArray)
   //setting paper
   var elevationGraphPaper = Raphael("elevationGraphPaper", 1560,1020 );
 
+  
+  console.log("lineOfSite1="+lineOfSite1+" | lineOfSite2="+lineOfSite2);
+  
+  
   var lineOfSite1 = elevationArray[0] + this.t1;
   var lineOfSite2 = elevationArray[elevationArray.length-1]+this.t2;
-  console.log("lineOfSite1="+lineOfSite1+" | lineOfSite2="+lineOfSite2);
+  
   var lines = elevationGraphPaper.linechart(20, 20, 1500, 300, [arrayX,[arrayX[0],arrayX[arrayX.length-1]]], [elevationArray,[lineOfSite1,lineOfSite2]], { nostroke: false, symbol: "circle", axis: "0 0 1 1", smooth: true }).hoverColumn(function () {
       this.tags = elevationGraphPaper.set();
 
       for (var i = 0, ii = this.y.length; i < ii; i++) {
-          this.tags.push(elevationGraphPaper.tag(this.x, this.y[i], this.values[i], 10, 10).insertBefore(this).attr([{ fill: "#fff" }, { fill: this.symbols[i].attr("fill") }]));
+          this.tags.push(elevationGraphPaper.tag(this.x, this.y[i], this.values[i]+" | Lat: "+elevationLatArray[this.axis]+" | Lng: "+elevationLngArray[this.axis], 10, 10).insertBefore(this).attr([{ fill: "#fff" }, { fill: this.symbols[i].attr("fill") }]));
       }
   }, function () {
       this.tags && this.tags.remove();
@@ -118,27 +141,10 @@ Link.prototype.elevationAnalysis = function (elevationArray)
   console.log("translateX = " + (translateX) + " | translateY ="+(translateY));
   //fresnelShape.transform("t"+translateX+","+translateY+"r"+fresnelAngle);
   fresnelShape.transform("r"+(fresnelAngle+180)+","+shapeBeginPoint.x+","+shapeBeginPoint.y+"T"+lineOfSitePointBegin.x+","+lineOfSitePointBegin.y);
-  //add ellipse to the line
   
-  var centerPoint = lineOfSiteLine.getPointAtLength(lineOfSiteDrawingLength/2);
-  var lineBBox = lineOfSiteLine.getBBox();
-  console.log(lineBBox);
-  
-  
-  /*
-var retEllipse = elevationGraphPaper.ellipse(centerPoint.x,centerPoint.y,lineOfSiteDrawingLength/2,50);
-  var x1 = beginPoint.x;
-  var y1 = beginPoint.y;
-  var x2 = endPoint.x;
-  var y2 = endPoint.y;
-  var ellipseAngle = Raphael.angle(x1,y1,x2,y2);
-  console.log("ellipse angle is = " + ellipseAngle);
-  retEllipse.attr({fill:"#aaa", opacity:0.3});
-  retEllipse.transform("r"+ellipseAngle+"t");
-  retEllipse.toBack();
-*/
 }
 
+//Returns SVG string
 Link.prototype.getFresnelPath = function (lineOfSiteDrawingLength,beginPoint,endPoint) 
 {
 	//var pathString = "M " +beginPoint.x + " " +beginPoint.y + " ";
@@ -159,9 +165,10 @@ Link.prototype.getFresnelPath = function (lineOfSiteDrawingLength,beginPoint,end
 		var yChangeDrawing = yChangeM*lineOfSiteDrawingLength/linkLengthM;
 		pathString += "L "+ (xChangeDrawing) + " " + (yChangeDrawing)+" " ;
 	}
+	
+	//to get mirror y values to draw
 	for(i=numberOfSegments; i>=0; i--)
 	{
-		
 		var xChangeDrawing = lengthPerSegmentD*i;
 		var xChangeM = lengthPerSegmentM*i;
 		var yChangeM = this.getFresnelZoneHeightAtPoint(xChangeM);
