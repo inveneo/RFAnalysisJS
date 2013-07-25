@@ -47,7 +47,7 @@ function createRfAnalysis(dataPointsInt,tHeight1,tHeight2)
   var long2 = $("#long2").val();
   var frequency = $("#radio-freq").val();
   
-  var currentLink = new Link(lat1,long1,lat2,long2,frequency,tHeight1,tHeight2);
+  var currentLink = new Link(lat1,long1,lat2,long2,frequency,tHeight1,tHeight2,1);
   var elevationDataArray = getElevationDataArray(lat1,long1,lat2,long2,dataPointsInt,currentLink);
 }
 
