@@ -53,18 +53,22 @@ function createRfAnalysis(dataPointsInt,tHeight1,tHeight2)
 
 function getElevationDataArray(lat1,long1,lat2,long2,dataPointsInt,currentLink)
 {
+	var dataResults ={};
 	var queryString = "http://maps.googleapis.com/maps/api/elevation/json?path=" + lat1+","+long1+"|"+lat2+","+long2+"&samples="+dataPointsInt+"&sensor=false";
-	var elevationArray=[];
+	var elevationArray={};
 	var googleRetObj = $.getJSON( queryString, function(data) {
   
         dataResults = data.results;
-        for(i=0; i<dataResults.length;i++)
+        
+        /*
+for(i=0; i<dataResults.length;i++)
         {
           elevationArray.push(dataResults[i].elevation);
         }
+*/
       })
       .done(function() { 
-      currentLink.elevationAnalysis(elevationArray);
+      currentLink.elevationAnalysis(dataResults);
        })
       .fail(function() { })
       .always(function() { });
