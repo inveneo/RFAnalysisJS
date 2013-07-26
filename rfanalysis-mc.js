@@ -76,14 +76,6 @@ Link.prototype.elevationAnalysis = function (elevationObj)
 	  elevationLatArray.push(elevationObj[i].location.lat);
 	  elevationLngArray.push(elevationObj[i].location.lng);
   }
-  console.log("elevationObj follows:");
-  console.log(elevationObj);
-  console.log("elevationArray follows:");
-  console.log(elevationArray);
-  console.log("elevationLatArray follows:");
-  console.log(elevationLatArray);
-  console.log("elevationLngArray follows:");
-  console.log(elevationLngArray);
 
 	//create x axis array based on number of elevation points
   var arrayX= [];
@@ -96,13 +88,13 @@ Link.prototype.elevationAnalysis = function (elevationObj)
   var elevationGraphPaper = Raphael("elevationGraphPaper", 1560,1020 );
 
   
-  console.log("lineOfSite1="+lineOfSite1+" | lineOfSite2="+lineOfSite2);
+  //console.log("lineOfSite1="+lineOfSite1+" | lineOfSite2="+lineOfSite2);
   
   
   var lineOfSite1 = elevationArray[0] + this.t1;
   var lineOfSite2 = elevationArray[elevationArray.length-1]+this.t2;
   
-  var lines = elevationGraphPaper.linechart(20, 20, 1500, 300, [arrayX,[arrayX[0],arrayX[arrayX.length-1]]], [elevationArray,[lineOfSite1,lineOfSite2]], { nostroke: false, symbol: "circle", axis: "0 0 1 1", smooth: true }).hoverColumn(function () {
+  var lines = elevationGraphPaper.linechart(20, 20, 1200, 300, [arrayX,[arrayX[0],arrayX[arrayX.length-1]]], [elevationArray,[lineOfSite1,lineOfSite2]], { nostroke: false, symbol: "circle", axis: "0 0 1 1", smooth: true }).hoverColumn(function () {
       this.tags = elevationGraphPaper.set();
 
       for (var i = 0, ii = this.y.length; i < ii; i++) {
@@ -118,7 +110,8 @@ Link.prototype.elevationAnalysis = function (elevationObj)
   console.log(endPoint);
   
   lines.symbols.attr({ r: 3 });
-  lines.lines[1].animate({"stroke-width": 4}, 1000);
+  //lines.lines[1].animate({"stroke-width": 4}, 1000);
+  lines.lines[1].attr({"stroke": 0, fill:"#ccc"});
   // lines.symbols[0].attr({stroke: "#fff"});
   
   //create red dot at first and last point
@@ -133,7 +126,7 @@ Link.prototype.elevationAnalysis = function (elevationObj)
   var fresnelPath = this.getFresnelPath(lineOfSiteDrawingLength,lineOfSitePointBegin,lineOfSitePointEnd);
   var fresnelShape = elevationGraphPaper.path(fresnelPath);
   //var fresnelShape = elevationGraphPaper.path("M 0 0 L 0,0L20,0L,40,100z");
-  fresnelShape.attr({fill:"#ff6633", opacity:0.5});
+  fresnelShape.attr({fill:"#ff6633", opacity:0.5, stroke:0});
   //fresnelShape.rotate(fresnelAngle);
   var shapeBeginPoint = fresnelShape.getPointAtLength(0);
   var translateX=shapeBeginPoint.x-lineOfSitePointBegin.x;
@@ -155,7 +148,7 @@ Link.prototype.getFresnelPath = function (lineOfSiteDrawingLength,beginPoint,end
 	var lengthPerSegmentM = lengthPerSegmentD*linkLengthM/lineOfSiteDrawingLength;
 	console.log("LengthPerSegmentM = " + lengthPerSegmentM);
 	
-	
+	console.log("Fresnel zone at halfway point = " + this.getFresnelZoneHeightAtPoint(this.linkLength*1000/2));
 	for(i=0; i<numberOfSegments; i++)
 	{
 		
