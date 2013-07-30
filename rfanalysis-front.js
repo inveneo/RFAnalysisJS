@@ -1,7 +1,8 @@
 $(function() {
   
   //just for the slider stuff
-  $( "#slider" ).slider({min:1, max:30, value:15,animate:"fast"});
+  /*
+$( "#slider" ).slider({min:1, max:51, value:25,animate:"fast"});
   var sliderVal = $( "#slider" ).slider( "option", "value" );
   var pointsVal = sliderVal*10;
   $("#num-points").html("Number of elevation data points are " + pointsVal);
@@ -12,27 +13,49 @@ $(function() {
    
     
   } );
+*/
+  var firstTowerHeight = 0;
+  var secondTowerHeight = 0;
+  var pointsVal = 0;
+  $( "#slider" ).slider({
+  	min:10, 
+  	max:512, 
+  	value:412,
+  	range:false,
+  	slide: function(event,ui){
+  		pointsVal = ui.value;
+	  	$("#slider-label").html("Number of elevation data points are " + pointsVal);
+		}});
+  pointsVal = $( "#slider" ).slider( "option", "value" );
+  $("#slider-label").html("Number of elevation data points are " + pointsVal);
+  
+  
   $("#latlong").on('submit', function (e) { e.preventDefault(); });
   
   
   //tower height sliders
-  $( "#first-tower" ).slider({min:0, max:100, value:0});
+  $( "#first-tower" ).slider({
+  	min:0, 
+  	max:100, 
+  	value:0,
+  	range:false,
+  	slide: function(event,ui){
+  		firstTowerHeight = ui.value;
+	  	$("#first-tower-label").html("First tower is " + ui.value);
+  	}});
   firstTowerHeight = $( "#first-tower" ).slider( "option", "value" );
   $("#first-tower-label").html("First tower is " + firstTowerHeight);
-  $( "#first-tower" ).on( "slide", function( event, ui ) { 
-    firstTowerHeight = $( "#first-tower" ).slider( "option", "value" );
-     $("#first-tower-label").html("First tower is " + firstTowerHeight);
-  });
-  
-  $( "#second-tower" ).slider({min:0, max:100, value:0});
+  $( "#second-tower" ).slider({
+  	min:0, 
+  	max:100, 
+  	value:0,
+  	range:false,
+  	slide: function(event,ui){
+  		secondTowerHeight = ui.value;
+	  	$("#second-tower-label").html("Second tower is " + ui.value);
+  	}});
   secondTowerHeight = $( "#second-tower" ).slider( "option", "value" );
   $("#second-tower-label").html("Second tower is " + secondTowerHeight);
-  $( "#second-tower" ).on( "slide", function( event, ui ) { 
-    secondTowerHeight = $( "#second-tower" ).slider( "option", "value" );
-     $("#second-tower-label").html("Second tower is " + secondTowerHeight);
-  });
-  
-  
   
   $('#submit-lat-long').click(function(){
     createRfAnalysis(pointsVal,firstTowerHeight,secondTowerHeight);
@@ -59,13 +82,6 @@ function getElevationDataArray(lat1,long1,lat2,long2,dataPointsInt,currentLink)
 	var googleRetObj = $.getJSON( queryString, function(data) {
   
         dataResults = data.results;
-        
-        /*
-for(i=0; i<dataResults.length;i++)
-        {
-          elevationArray.push(dataResults[i].elevation);
-        }
-*/
       })
       .done(function() { 
       currentLink.elevationAnalysis(dataResults);
