@@ -165,6 +165,9 @@ Link.prototype.elevationAnalysis = function (elevationObj)
   //fresnelShape.transform("t"+translateX+","+translateY+"r"+fresnelAngle);
   fresnelShape.transform("r"+(fresnelAngle+180)+","+shapeBeginPoint.x+","+shapeBeginPoint.y+"T"+lineOfSitePointBegin.x+","+lineOfSitePointBegin.y);
   
+  //This line is a reference line that i dont want visible.  It allows me to properly scale the y-axis
+  lines.lines[2].attr({stroke: 0, fill: "none"});
+  
   console.log("path intersection follows:");
   var intersections = Raphael.pathIntersection(lines.lines[0],fresnelValues.path);
 	 
@@ -231,13 +234,8 @@ var lineOfSiteHeightM = 0;
 		var xChangeM = lengthPerSegmentM*i;
 		var yChangeM = this.getFresnelZoneHeightAtPoint(xChangeM);
 		var yChangeDrawing = yChangeM*lineOfSiteDrawingHeight/heightOfGraphM;
-		/*
-fresnelValObj.data[j] = {};
-		fresnelValObj.data[j].fresnel=yChangeM;
-		fresnelValObj.data[j].distance=xChangeM;
-		fresnelValObj.data[j].percentIntruded=getFresnelClearance(yChangeM,(lineOfSiteArray[i]),fresnelValObj.data[j].distance);
-		//console.log("yChangeM=" + yChangeM + " | lineOfSiteArray["+i+"]=" + lineOfSiteArray[i] + " | fresnelValObj.data[j].distance["+j+"]="+fresnelValObj.data[j].distance);
-*/
+
+
 		pathString += "L " + (xChangeDrawing)+ " " + "-"+(yChangeDrawing)+" " ;
 	}
 	
@@ -263,6 +261,8 @@ function getFresnelClearance(fresnel,losPoint,elevPoint)
 		var a = elevPoint-(losPoint-fresnelRadius);
 		 
 		fresnelPercent = a/fresnel*100;
+		
+		if (fresnelPercent>100){fresnelPercent=100;}
 	}
 	return fresnelPercent;
 }

@@ -23,3 +23,10 @@
   margin:10px;
   width:400px;
 }
+
+#map-canvas
+{
+	margin:10px;
+	width:600px;
+	height:200px;
+}

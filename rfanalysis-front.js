@@ -1,19 +1,7 @@
 $(function() {
   
+  
   //just for the slider stuff
-  /*
-$( "#slider" ).slider({min:1, max:51, value:25,animate:"fast"});
-  var sliderVal = $( "#slider" ).slider( "option", "value" );
-  var pointsVal = sliderVal*10;
-  $("#num-points").html("Number of elevation data points are " + pointsVal);
-  $( "#slider" ).on( "slide", function( event, ui ) {
-      sliderVal = $( "#slider" ).slider( "option", "value" );
-      pointsVal = sliderVal*10;
-    $("#num-points").html("Number of elevation data points are " + pointsVal);
-   
-    
-  } );
-*/
   var firstTowerHeight = 0;
   var secondTowerHeight = 0;
   var pointsVal = 0;
@@ -91,4 +79,10 @@ function getElevationDataArray(lat1,long1,lat2,long2,dataPointsInt,currentLink)
       
 	
 }
+
+var map;
+function initialize() {
   
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
