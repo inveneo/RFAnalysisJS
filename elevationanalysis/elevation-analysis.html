@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <script data-require="raphael@2.1.0" data-semver="2.1.0" src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/graphael/0.5.1/g.raphael-min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/graphael/0.5.1/g.line-min.js"></script>
+    <script data-require="jquery@2.0.3" data-semver="2.0.3" src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+    <link rel="stylesheet" href="style.css" />
+    <script src="js/front.js"></script>
+    <script src="js/elevationanalysis.js"></script>
+  </head>
+
+  <body>
+    <h1>Elevation Array</h1>
+    <form id="latlong" name="latlong">
+			Lat 1: <input type="text" id="lat1" value="3.15503"> <br />
+      Long 1: <input type="text" id="long1" value="32.91421"><br /><br />
+      Lat 2: <input type="text" id="lat2" value="3.193278320652745"> <br />
+      Long 2: <input type="text" id="long2" value="33.26338962968624"><br /><br />
+      Radio Frequency (GHz): <input type="text" id="radio-freq" value="2.400"><br /><br />
+      <div id="slider"></div>
+      <div id="slider-label"></div>
+      <div id="first-tower"></div><div id="first-tower-label"></div>
+    <div id="second-tower"></div><div id="second-tower-label"></div>
+      <button id="submit-lat-long">Generate Elevation Profile</button>
+    </form>
+    <!-- <div id="map-canvas"></div> -->
+    <div id="fresnel-zone-data"></div>
+    <div id="elevationGraphPaper"></div>
+    
+  </body>
+
+</html>

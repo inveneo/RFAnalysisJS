@@ -1,0 +1,32 @@
+/* Styles go here */
+
+#elevationGraphPaper
+{
+  width:960px;
+  height:560px;
+}
+
+#slider
+{
+  margin:10px;
+  width:600px;
+}
+
+#second-tower
+{
+  margin:10px;
+  width:400px;
+}
+
+#first-tower
+{
+  margin:10px;
+  width:400px;
+}
+
+#map-canvas
+{
+	margin:10px;
+	width:600px;
+	height:200px;
+}
