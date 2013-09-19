@@ -1,43 +1,73 @@
-<!DOCTYPE html>
+<meta charset="UTF-8">
 <html>
+<head>
 
-  <head>
-    <script data-require="raphael@2.1.0" data-semver="2.1.0" src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/graphael/0.5.1/g.raphael-min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/graphael/0.5.1/g.line-min.js"></script>
-    <script data-require="jquery@2.0.3" data-semver="2.0.3" src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
-    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
-    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
-    <link rel="stylesheet" href="style.css" />
-    <script src="rfanalysis-front.js"></script>
-    <script src="rfanalysis-mc.js"></script>
-  </head>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 
-  <body>
-    <h1>Elevation Array</h1>
-    <form id="latlong" name="latlong">
-      <!--
-Lat 1: <input type="text" id="lat1" value="36.578581"> <br />
-      Long 1: <input type="text" id="long1" value="-118.291994"><br /><br />
-      Lat 2: <input type="text" id="lat2" value="36.23998"> <br />
-      Long 2: <input type="text" id="long2" value="-116.83171"><br /><br />
--->
-			Lat 1: <input type="text" id="lat1" value="3.15503"> <br />
-      Long 1: <input type="text" id="long1" value="32.91421"><br /><br />
-      Lat 2: <input type="text" id="lat2" value="3.193278320652745"> <br />
-      Long 2: <input type="text" id="long2" value="33.26338962968624"><br /><br />
-      Radio Frequency (GHz): <input type="text" id="radio-freq" value="2.400"><br /><br />
-      <div id="slider"></div>
-      <div id="slider-label"></div>
-      <div id="first-tower"></div><div id="first-tower-label"></div>
-    <div id="second-tower"></div><div id="second-tower-label"></div>
-      <button id="submit-lat-long">Generate Elevation Profile</button>
-    </form>
-    <!-- <div id="map-canvas"></div> -->
-    <div id="fresnel-zone-data"></div>
-    <div id="elevationGraphPaper"></div>
-    
-  </body>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <!--<script src="js3/d3-matt.min.js"></script>-->
+    <script src="js/googlerf.js"></script>
 
+    <!-- TAKE OUT THE KEY OF GOOGLE MAPS JS API!!!! -->
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=geometry&client=gme-inveneoinc"></script>
+
+    <style>
+
+        #map {
+            width: 900px;
+            height: 500px;
+        }
+
+        .line {
+            fill: none;
+            stroke: steelblue;
+            stroke-width: 1.5px;
+        }
+
+        .SvgOverlay {
+            position: relative;
+            width: 900px;
+            height: 500px;
+        }
+
+        .SvgOverlay svg {
+            position: absolute;
+            top: -4000px;
+            left: -4000px;
+            width: 8000px;
+            height: 8000px;
+        }
+
+        .SvgOverlay path {
+            stroke: Orange;
+            stroke-width: 0px;
+            fill: Orange;
+            fill-opacity: .5;
+        }
+
+    </style>
+</head>
+<body>
+
+<div id="map-wrap">
+    <div id="map">
+    </div>
+</div>
+
+<script>
+
+    var lat = 37.852357;
+    var lng = -122.483139;
+    var frequency = 5800;
+    var aboveGroundHeight = 5;
+    var distance = 10000;
+    var precision = 30;
+    var myClass = new GoogleRf();
+
+    mysite = myClass.createSite(lat,lng,frequency,aboveGroundHeight,distance,precision);
+    myViewshed = mysite.createViewshed(distance,precision);
+
+</script>
+
+</body>
 </html>
