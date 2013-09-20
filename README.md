@@ -51,6 +51,8 @@ Usage:
 
 The resulting image shows the path between the two points with the first Fresnel zone.
 
+##### Example of Point-Point Link Analysis
+
 ![Point-Point Link Analysis](https://dl.dropboxusercontent.com/u/100305526/permanent/rf-analysis/p2p.png "Point-Point Link Analysis")
 
 #### Viewshed Analysis
@@ -78,7 +80,11 @@ var frequency = 5800; // frequency of radio
 var aboveGroundHeight = 5; // meters above ground
 var distance = 10000; // radius of viewshed in meters    
 var precision = 30; // resolution (degrees)
+
+##### Example of Viewshed Analysis
+
 ```
+![Viewshed Analysis](https://dl.dropboxusercontent.com/u/100305526/permanent/rf-analysis/viewshed.png "Point-Viewshed Analysis")
 
 ###  Google Maps API for Business account
 
