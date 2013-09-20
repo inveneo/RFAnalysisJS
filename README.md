@@ -1,10 +1,9 @@
 RF-Analysis.js
 ==============
 
-Google Earth Outreach Program radio frequency analysis project
+This project was made possible from the Google Earth Outreach Program.
 
-
-# RF (Radio Frequency) Link Planner
+## RF (Radio Frequency) Link Planner
 
 ### Overview
 
@@ -27,14 +26,6 @@ This project requires:
  * D3.js
  * jQuery
  * CoffeeScript (in the ViewShed analysis)
-
-And here's some code!
-
-```javascript
-$(function(){
-  $('div').html('I am a div.');
-});
-```
 
 ### Usage
 
