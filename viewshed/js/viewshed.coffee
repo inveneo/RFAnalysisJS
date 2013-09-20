@@ -1,4 +1,4 @@
-class window.GoogleRf
+class window.RFAnalysisViewshed
   self = []
   constructor: ->
     @results = {}
@@ -21,12 +21,22 @@ class window.GoogleRf
       self.results.sites.viewshed = myViewshed
       return myViewshed
 
+    createViewshedBusiness: (distance,precision,googleClientId,urlToSignKey) =>
+      myViewshed = new Viewshed(this,distance,precision,googleClientId,urlToSignKey)
+      self.results.sites.viewshed = myViewshed
+      return myViewshed
+
     setLambda: () ->
       @lambda = 299792458 / ( @radioFrequency * Math.pow(10, 9))
 
     class Viewshed
-      constructor: (@_site,@distance,@precision) ->
-        this.createViewshed()
+      constructor: (@_site,@distance,@precision,@googleClientId,@urlToSignKey) ->
+        if  @googleClientId? and @urlToSignKey?
+          this.createViewshedBusiness(@googleClientId,@urlToSignKey)
+          console.log("created business viewshed")
+        else
+          this.createViewshed()
+          console.log("created regular viewshed")
       createCirclesPoints: =>
         segmentLengthM = @distance / (360 / @precision)
         originLngLat = [@_site.lng, @_site.lat]
@@ -121,7 +131,7 @@ class window.GoogleRf
           arrayIterator++  if googleCoordArray[arrayIterator].length is maxCoordsRequest
           polygonsIterator++
         googleCoordArray
-      createRequestUrlBusiness: (latLngArray,clientId)->
+      createRequestUrlBusiness: (latLngArray,clientId,pathToSignedKeyCreator)->
         requestStringBase = "http://maps.googleapis.com"
         requestString = "http://maps.googleapis.com/maps/api/elevation/json?locations="
         i = 0
@@ -131,7 +141,7 @@ class window.GoogleRf
           requestString += "|"  if i < (latLngArray.length - 1)
           i++
         requestString += "&client=" + clientId + "&sensor=false"
-        return $.post('php/signUrl.php', {"url-to-sign": requestString, "base-url": requestStringBase},(finalString) -> return finalString)
+        return $.post(pathToSignedKeyCreator, {"url-to-sign": requestString, "base-url": requestStringBase},(finalString) -> return finalString)
       createRequestUrl: (latLngArray)->
         requestStringBase = "http://maps.googleapis.com"
         requestString = "http://maps.googleapis.com/maps/api/elevation/json?locations="
@@ -194,7 +204,7 @@ class window.GoogleRf
             j++
           i++
         return geoJson
-      createViewshedBusiness: =>
+      createViewshedBusiness:(googleBusinessId,pathToSignedKeyCreator) =>
         google.maps.visualRefresh = true
         $map = $('#map')
         map = new google.maps.Map($map[0], zoom: 11,mapTypeId: google.maps.MapTypeId.TERRAIN,center: new google.maps.LatLng(@_site.lat,@_site.lng))
@@ -223,7 +233,7 @@ class window.GoogleRf
             jxhr = []
             result = []
             requestUrlArray = $.map coordArray, (val,j)->
-              return thisSite.createRequestUrlBusiness(val,"gme-inveneoinc")
+              return thisSite.createRequestUrlBusiness(val,googleBusinessId,pathToSignedKeyCreator)
             $.when.apply($, requestUrlArray).done ->
               $.each coordArray, (i,subArray) ->
                 window.console.log(this)
@@ -245,14 +255,14 @@ class window.GoogleRf
                 elevation = thisSite.setElevation(polygonsGeoJson,elevationObject)
 
                 drawing = adminDivisions2.selectAll("path")
-                  .data(elevation.features)
+                .data(elevation.features)
 
                 drawingAttr = drawing
-                  .attr("d", path)
-                  .enter().append("svg:path")
-                  .style("fill",(d)->return d.properties.color)
-                  .style("stroke",(d)->return d.properties.color)
-                  .attr("d", path)
+                .attr("d", path)
+                .enter().append("svg:path")
+                .style("fill",(d)->return d.properties.color)
+                .style("stroke",(d)->return d.properties.color)
+                .attr("d", path)
         overlay.setMap(map)
         return polygonsGeoJson
       createViewshed: =>

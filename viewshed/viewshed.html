@@ -5,21 +5,15 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 
     <script src="http://d3js.org/d3.v3.min.js"></script>
-    <!--<script src="js3/d3-matt.min.js"></script>-->
-    <script src="js/googlerf.js"></script>
+    <script src="js/viewshed.js"></script>
 
-    <!-- without a Google Maps API for Business account: -->
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=geometry"></script>
-    
-    <!-- with a Google Maps API for Business account:
-    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=geometry&client=CLIENT-ID"></script>
-    -->
     
     <style>
 
         #map {
             width: 900px;
-            height: 500px;
+            height: 600px;
         }
 
         .line {
@@ -66,10 +60,17 @@
     var aboveGroundHeight = 5; // meters above ground
     var distance = 10000; // radius of viewshed in meters    
     var precision = 30; // resolution (degrees)
-    var myClass = new GoogleRf();
 
-    mysite = myClass.createSite(lat,lng,frequency,aboveGroundHeight,distance,precision);
+    /* FOR GOOGLE MAPS FOR BUSINESS ONLY */
+    var googleClientId = "gme-inveneoinc"; //optional google maps for business client id only
+    var urlToSigningGoogleUrl = "php/signUrl.php"; //optional google maps for business signed url function
+    /* END BUSINESS ONLY */
+
+    var myViewshedWrapper = new RFAnalysisViewshed();
+
+    mysite = myViewshedWrapper.createSite(lat,lng,frequency,aboveGroundHeight,distance,precision);
     myViewshed = mysite.createViewshed(distance,precision);
+    //myBusinessViewshed = mysite.createViewshedBusiness(distance,precision,googleClientId,urlToSigningGoogleUrl)
 
 </script>
 
