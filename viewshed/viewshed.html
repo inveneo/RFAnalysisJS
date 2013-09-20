@@ -8,9 +8,13 @@
     <!--<script src="js3/d3-matt.min.js"></script>-->
     <script src="js/googlerf.js"></script>
 
-    <!-- TAKE OUT THE KEY OF GOOGLE MAPS JS API!!!! -->
-    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=geometry&client=gme-inveneoinc"></script>
-
+    <!-- without a Google Maps API for Business account: -->
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=geometry"></script>
+    
+    <!-- with a Google Maps API for Business account:
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=geometry&client=CLIENT-ID"></script>
+    -->
+    
     <style>
 
         #map {
@@ -56,12 +60,12 @@
 
 <script>
 
-    var lat = 37.852357;
-    var lng = -122.483139;
-    var frequency = 5800;
-    var aboveGroundHeight = 5;
-    var distance = 10000;
-    var precision = 30;
+    var lat = 37.852357; // latitude of center point
+    var lng = -122.483139; // longitude of center point
+    var frequency = 5800; // frequency of radio
+    var aboveGroundHeight = 5; // meters above ground
+    var distance = 10000; // radius of viewshed in meters    
+    var precision = 30; // resolution (degrees)
     var myClass = new GoogleRf();
 
     mysite = myClass.createSite(lat,lng,frequency,aboveGroundHeight,distance,precision);
