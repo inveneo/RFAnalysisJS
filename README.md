@@ -80,10 +80,10 @@ var frequency = 5800; // frequency of radio
 var aboveGroundHeight = 5; // meters above ground
 var distance = 10000; // radius of viewshed in meters    
 var precision = 30; // resolution (degrees)
+```
 
 ##### Example of Viewshed Analysis
 
-```
 ![Viewshed Analysis](https://dl.dropboxusercontent.com/u/100305526/permanent/rf-analysis/viewshed.png "Point-Viewshed Analysis")
 
 ###  Google Maps API for Business account
