@@ -14,6 +14,8 @@ This project uses [Google's Elevation API](https://developers.google.com/maps/do
 
 In addition, note that the Elevation API may only be used in conjunction with displaying results on a Google map; using elevation data without displaying a map for which elevation data was requested is prohibited.
 
+Note, this library is only able to factor in intrusions of terrain (the surface of the earth) into the Fresnel Zone.  The underlying data does not account for buildings, trees, or other potential obstructions.
+
 #### Note on Daily API Call Limits
 
 ##### Point-Point Link Analysis
