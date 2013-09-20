@@ -54,6 +54,8 @@ The resulting image shows the path between the two points with the first Fresnel
 
 See the sample code in elevation-analysis.html.  Note the JavaScript for viewshed analysis is compiled from CoffeeScript.
 
+Green indicates clear line of sight from the center point, red indicates no clear line of sight.
+
 If you *do not* hava a Google Maps API for Business account, the call to the maps API should look like this:
 ```javascript
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=geometry"></script>
@@ -80,10 +82,13 @@ var precision = 30; // resolution (degrees)
 To be documented
 
 ### Future Work
-* Redo the Elevation Analysis tool to use D3 instead of Raphael.js
-* Merge the Elevation Analysis tool with the Viewshed tool
-* Cache Google's elevation data on the Viewshed tool so when you zoom in, we can grab the elevation values and redraw without another API call
+* Redo the Point-Point Link Analysis to use D3 instead of Raphael.js
+* Merge the Point-Point Link Analysis with the Viewshed Analysis
+* Cache Google's elevation data on the Viewshed Analysis so when you zoom in, we can grab the elevation values and redraw without another API call
 * Put this in some kind of package management system and break up the files in a more modular way to develop with
+* Highlight intrusions into the Fresnel zone in Point-Point Link Analysis
+* Allow for a variable tolerance (intrusion) level in the Viewshed Analysis -- e.g. a slider might permit the user to adjust for intrusions ranging from 0 to 100%, which would then alter the resulting viewshed.  Typically one might allow for intrusions of up to 40% (or 60% unobstructed) in the first Fresnel zone.
+
 
 ### References
 
