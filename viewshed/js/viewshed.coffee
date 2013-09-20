@@ -33,10 +33,8 @@ class window.RFAnalysisViewshed
       constructor: (@_site,@distance,@precision,@googleClientId,@urlToSignKey) ->
         if  @googleClientId? and @urlToSignKey?
           this.createViewshedBusiness(@googleClientId,@urlToSignKey)
-          console.log("created business viewshed")
         else
           this.createViewshed()
-          console.log("created regular viewshed")
       createCirclesPoints: =>
         segmentLengthM = @distance / (360 / @precision)
         originLngLat = [@_site.lng, @_site.lat]

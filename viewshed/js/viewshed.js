@@ -76,10 +76,8 @@ window.RFAnalysisViewshed = function () {
         this.urlToSignKey = param$4;
         if (null != this.googleClientId && null != this.urlToSignKey) {
           this.createViewshedBusiness(this.googleClientId, this.urlToSignKey);
-          console.log('created business viewshed');
         } else {
           this.createViewshed();
-          console.log('created regular viewshed');
         }
       }
       Viewshed.prototype.createCirclesPoints = function () {
