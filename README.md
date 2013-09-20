@@ -20,7 +20,7 @@ Note, this library is only able to factor in intrusions of terrain (the surface 
 
 ##### Point-Point Link Analysis
 
-Using this library to perform point-point link analysis is relativley lightweight in terms of calls to Google's API.  The library will make one call each time the page is loaded or refreshed.
+Using this library to perform point-point link analysis is relatively lightweight in terms of calls to Google's API.  The library will make one call each time the page is loaded or refreshed.
 
 ##### Viewshed Analysis
 
@@ -30,9 +30,11 @@ Using this library to perform Viewshed analysis is considerably more expensive i
 
 This project requires:
 
- * Raphael.js
- * D3.js
+ * Raphael.js, v2.1.2, http://raphaeljs.com/
+ ** gRaphael with g.line.js, v0.5.1
+ * D3.js, v3 (3.3.4+), http://d3js.org/
  * jQuery
+ * Google Maps Javascript API v3 with Geometry Library,
 
 While not a dependency to use RFAnalysisJS, [CoffeeScript](http://coffeescript.org/) is required to recompile the JavaScript for the viewshed analysis.
 
@@ -61,14 +63,9 @@ See the sample code in elevation-analysis.html.  Note the JavaScript for viewshe
 
 Green indicates clear line of sight from the center point, red indicates no clear line of sight.
 
-If you *do not* hava a Google Maps API for Business account, the call to the maps API should look like this:
+The call to the Google Maps API should look like this:
 ```javascript
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=geometry"></script>
-```
-
-If you *do* have a Google Maps API for Business account, retrieve your client ID from your console and insert it into the HTML as such:
-```javascript
-<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=geometry&client=CLIENT-ID"></script>
 ```
 
 Variables to set in the HTML file:
@@ -88,7 +85,7 @@ var precision = 30; // resolution (degrees)
 
 ###  Google Maps API for Business account
 
-To be documented
+To get a higher usage limit to perform more higher resolution analysis or more analysis per day with the viewshed.js file, this library supports the use of Google Maps API for Business.  Instead of calling createViewshed on a site, you would call createViewshedBusiness(<GOOGLE_MAPS_BUSINESS_CLIENT_ID>, <URL_TO_SIGN_CALLS_FUNCTION>).  Note that the second parameter is a function that would be stored server-side and will sign the url to authorize your Google Maps for Business account.  For more information, visit (https://developers.google.com/maps/documentation/business/webservices/auth). You may want to view the viewshed.html demo in order to utilize this feature.
 
 ### Future Work
 * Redo the Point-Point Link Analysis to use D3 instead of Raphael.js
