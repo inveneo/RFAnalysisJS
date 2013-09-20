@@ -12,7 +12,7 @@ This JavaScript library is an effort to streamline and simplify the wireless lin
 ### Elevation API
 This project uses [Google's Elevation API](https://developers.google.com/maps/documentation/elevation/).  Note that while Google maintains a free public facing API, Google enforces daily usage limits – currently 2,500 calls per day.  If you have a Google Maps API for Business account, the daily call limit is significantly higher.  See below on how to configure the library with your key.
 
-In addition, note that the Elevation API may only be used in conjunction with displaying results on a Google map; using elevation data without displaying a map for which elevation data was requested is prohibited.
+In addition, note Google's terms of service state that the  Elevation API may only be used in conjunction when displaying results on a Google map.  Using elevation data without displaying the results on a map for which elevation data was requested is prohibited.
 
 Note, this library is only able to factor in intrusions of terrain (the surface of the earth) into the Fresnel Zone.  The underlying data does not account for buildings, trees, or other potential obstructions.
 
@@ -33,7 +33,8 @@ This project requires:
  * Raphael.js
  * D3.js
  * jQuery
- * CoffeeScript (in the viewshed analysis)
+
+While not a dependency to use RFAnalysisJS, [CoffeeScript](http://coffeescript.org/) is required to recompile the JavaScript for the viewshed analysis.
 
 ### Usage
 
