@@ -31,7 +31,7 @@ Using this library to perform Viewshed analysis is considerably more expensive i
 This project requires:
 
  * Raphael.js, v2.1.2, http://raphaeljs.com/
- ** gRaphael with g.line.js, v0.5.1
+ * gRaphael with g.line.js, v0.5.1
  * D3.js, v3 (3.3.4+), http://d3js.org/
  * jQuery
  * Google Maps Javascript API v3 with Geometry Library,
@@ -106,6 +106,7 @@ You should have received a copy of the GNU General Public License along with thi
 ### References
 
 4Gon Solutions maintains a good introduction and overview to [Fresnel Zones](http://www.4gon.co.uk/solutions/technical_fresnel_zones.php).
+Mike Bostock and his plentiful d3 examples! http://bl.ocks.org/mbostock
 
 ### Contributors
 

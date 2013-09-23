@@ -36,9 +36,10 @@ Link.prototype.getFresnelZoneHeightAtPoint = function(point)
 {
   var dist1M = point;
   var dist2M = ((this.linkLength * 1000 ) - dist1M);
+  //console.log("d1 = "+dist1M + " | d2 = " + dist2M + " | d = "+this.linkLength*1000 + " | lambda = "+this.lambda)
   var fresnelZone = Math.sqrt((this.fresnelZoneNumber*this.lambda*dist1M*dist2M)/(dist1M+dist2M));
   return fresnelZone.toFixed(2);
-};
+}
 
 //Sets linkLength property of Link
 Link.prototype.setLinkLength = function (x1,y1,x2,y2)
@@ -51,7 +52,7 @@ Link.prototype.setLinkLength = function (x1,y1,x2,y2)
           Math.cos(toRad(this.x1)) * Math.cos(toRad(this.x2)) * 
           Math.sin(dy/2) * Math.sin(dy/2); 
   var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-  var d = R * c;;
+  var d = R * c;
   this.linkLength = d;
 }
 
@@ -84,15 +85,20 @@ Link.prototype.elevationAnalysis = function (elevationObj)
   var lineOfSiteArrayX = [];
   var lineOfSiteArrayY = [];
   var lineOfSiteChangeY = 0;
+  lineOfSiteChangeY=(lineOfSite2-lineOfSite1)/elevationArray.length;
+  /*
   if(lineOfSite2>=lineOfSite1){
+
   	lineOfSiteChangeY=(lineOfSite2-lineOfSite1)/elevationArray.length;
   }
   else{
-	  lineOfSiteChangeY=(lineOfSite1-lineOfSite2)/elevationArray.length;
+	  lineOfSiteChangeY=(lineOfSite2-lineOfSite1)/elevationArray.length;
   }
+*/
 
   for(i=0; i<elevationArray.length;i++)
   {
+	  lineOfSiteArrayX[i]= i;
 	  lineOfSiteArrayX[i]= i;
 	  lineOfSiteArrayY[i]= lineOfSite1+ lineOfSiteChangeY*i;
   }
@@ -179,17 +185,19 @@ var lineOfSiteHeightM = 0;
 		lineOfSiteHeightM =  elevationArray[0] - elevationArray[elevationArray.length-1];
 	}
 */
-	var heightOfGraphM = Math.max.apply(Math,elevationArray);
+	var heightOfGraphM = Math.max.apply(Math,elevationArray)-Math.min.apply(Math,elevationArray);
 	var fresnelValObj = {};
 	fresnelValObj.data = {};
 	var numberOfSegments = resolution;
 	var lengthPerSegmentD = lineOfSiteDrawingLength/numberOfSegments;
 	var linkLengthM = this.linkLength*1000;
 	var lengthPerSegmentM = lengthPerSegmentD*linkLengthM/lineOfSiteDrawingLength;
+    //console.log("lengthPerSegmentM = "+ lengthPerSegmentM)
 	for(i=0; i<numberOfSegments; i++)
 	{
 		var xChangeDrawing = lengthPerSegmentD*i;
 		var xChangeM = lengthPerSegmentM*i;
+        //console.log("xChangeM = " +xChangeM + " | linkLengthM = "+linkLengthM)
 		var yChangeM = this.getFresnelZoneHeightAtPoint(xChangeM);
 		var yChangeDrawing = yChangeM * lineOfSiteDrawingHeight/heightOfGraphM;
 		fresnelValObj.data[i] = {};
@@ -209,11 +217,18 @@ var lineOfSiteHeightM = 0;
 		var yChangeM = this.getFresnelZoneHeightAtPoint(xChangeM);
 		var yChangeDrawing = yChangeM*lineOfSiteDrawingHeight/heightOfGraphM;
 
-
-		pathString += "L " + (xChangeDrawing)+ " " + "-"+(yChangeDrawing)+" " ;
+        if(yChangeDrawing !== 0)
+        {
+            pathString += "L " + (xChangeDrawing)+ " " + "-"+(yChangeDrawing)+" " ;
+        }
+		else
+        {
+            pathString += "L " + (xChangeDrawing)+ " "+(yChangeDrawing)+" " ;
+        }
 	}
 	
 	pathString +=" Z";
+    //console.log(pathString);
 	fresnelValObj.path=pathString;
 	return fresnelValObj;
 }
