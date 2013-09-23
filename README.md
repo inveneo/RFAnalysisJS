@@ -95,6 +95,13 @@ To get a higher usage limit to perform more higher resolution analysis or more a
 * Highlight intrusions into the Fresnel zone in Point-Point Link Analysis
 * Allow for a variable tolerance (intrusion) level in the Viewshed Analysis -- e.g. a slider might permit the user to adjust for intrusions ranging from 0 to 100%, which would then alter the resulting viewshed.  Typically one might allow for intrusions of up to 40% (or 60% unobstructed) in the first Fresnel zone.
 
+### GNU General Public License
+
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with this program.  If not, see [http://www.gnu.org/licenses](http://www.gnu.org/licenses/).
 
 ### References
 
