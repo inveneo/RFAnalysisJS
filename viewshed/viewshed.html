@@ -57,9 +57,9 @@
     var lat = 37.852357; // latitude of center point
     var lng = -122.483139; // longitude of center point
     var frequency = 5800; // frequency of radio
-    var aboveGroundHeight = 5; // meters above ground
+    var aboveGroundHeight = 14; // meters above ground
     var distance = 10000; // radius of viewshed in meters    
-    var precision = 30; // resolution (degrees)
+    var precision = 7; // resolution (degrees)
 
     /* FOR GOOGLE MAPS FOR BUSINESS ONLY */
     var googleClientId = "gme-inveneoinc"; //optional google maps for business client id only
@@ -69,8 +69,8 @@
     var myViewshedWrapper = new RFAnalysisViewshed();
 
     mysite = myViewshedWrapper.createSite(lat,lng,frequency,aboveGroundHeight,distance,precision);
-    myViewshed = mysite.createViewshed(distance,precision);
-    //myBusinessViewshed = mysite.createViewshedBusiness(distance,precision,googleClientId,urlToSigningGoogleUrl)
+    //myViewshed = mysite.createViewshed(distance,precision);
+    myBusinessViewshed = mysite.createViewshedBusiness(distance,precision,googleClientId,urlToSigningGoogleUrl)
 
 </script>
 

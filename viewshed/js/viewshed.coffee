@@ -81,7 +81,7 @@ class window.RFAnalysisViewshed
                   line_id: j
                   circle_id: i
                   id: instanceId
-                  centroid: [d3.round(centroid[0], 10), d3.round(centroid[1], 10)]
+                  centroid: [d3.round(centroid[0], 7), d3.round(centroid[1], 7)]
                   polyID: retGeoJson.features.length
 
                 geometry:
@@ -156,8 +156,12 @@ class window.RFAnalysisViewshed
           url: myurl
           type: "POST"
           tryCount: 0
+          async: true
           retryLimit: limit
           success: (json) ->
+            if json is "null" or typeof json is "undefined" or json is ""
+              json="THIS IS A FAILURE!!!!"
+              console.log("failllllure -------------------------")
             return json
           error: (xhr, textStatus, errorThrown) ->
             if textStatus is "timeout"
@@ -227,14 +231,15 @@ class window.RFAnalysisViewshed
             path = d3.geo.path().projection(googleMapProjection)
             totalArray = thisSite.createCirclesPoints()
             polygonsGeoJson = thisSite.preparePolygons(totalArray)
-            coordArray = thisSite.coordinatesToArray(polygonsGeoJson, 40)
+            coordArray = thisSite.coordinatesToArray(polygonsGeoJson, 60)
             jxhr = []
             result = []
             requestUrlArray = $.map coordArray, (val,j)->
               return thisSite.createRequestUrlBusiness(val,googleBusinessId,pathToSignedKeyCreator)
             $.when.apply($, requestUrlArray).done ->
               $.each coordArray, (i,subArray) ->
-                window.console.log(this)
+                #window.console.log(this)
+
                 jxhr.push(thisSite.ajaxRetry(requestUrlArray[i].responseText,3).done( (json)=> result.push(json.results) ) )
               $.when.apply($, jxhr).done =>
                 sortedCoordArray = []

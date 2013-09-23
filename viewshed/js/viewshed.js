@@ -146,8 +146,8 @@ window.RFAnalysisViewshed = function () {
                   circle_id: i,
                   id: instanceId,
                   centroid: [
-                    d3.round(centroid[0], 10),
-                    d3.round(centroid[1], 10)
+                    d3.round(centroid[0], 7),
+                    d3.round(centroid[1], 7)
                   ],
                   polyID: retGeoJson.features.length
                 },
@@ -257,8 +257,13 @@ window.RFAnalysisViewshed = function () {
           url: myurl,
           type: 'POST',
           tryCount: 0,
+          async: true,
           retryLimit: limit,
           success: function (json) {
+            if (json === 'null' || typeof json === 'undefined' || json === '') {
+              json = 'THIS IS A FAILURE!!!!';
+              console.log('failllllure -------------------------');
+            }
             return json;
           },
           error: function (xhr, textStatus, errorThrown) {
@@ -348,7 +353,7 @@ window.RFAnalysisViewshed = function () {
             path = d3.geo.path().projection(googleMapProjection);
             totalArray = thisSite.createCirclesPoints();
             polygonsGeoJson = thisSite.preparePolygons(totalArray);
-            coordArray = thisSite.coordinatesToArray(polygonsGeoJson, 40);
+            coordArray = thisSite.coordinatesToArray(polygonsGeoJson, 60);
             jxhr = [];
             result = [];
             requestUrlArray = $.map(coordArray, function (val, j) {
@@ -356,7 +361,6 @@ window.RFAnalysisViewshed = function () {
             });
             return $.when.apply($, requestUrlArray).done(function () {
               $.each(coordArray, function (i, subArray) {
-                window.console.log(this);
                 return jxhr.push(thisSite.ajaxRetry(requestUrlArray[i].responseText, 3).done(function (json) {
                   return result.push(json.results);
                 }));

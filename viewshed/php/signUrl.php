@@ -2,7 +2,7 @@
 
 $myUrl = $_POST['url-to-sign'];
 $baseUrl = $_POST['base-url'];
-$cryptoKey = "/*<YOUR_CRYPTO_KEY_HERE>*/";
+$cryptoKey = "<YOUR_KEY_HERE>";
 $hashedResult = hash_hmac('sha1', $myUrl, $decodedKey);
 echo signUrl($myUrl, $cryptoKey);
 
