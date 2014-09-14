@@ -81,7 +81,7 @@ var precision = 30; // resolution (degrees)
 
 ##### Example of Viewshed Analysis
 
-![Viewshed Analysis](https://dl.dropboxusercontent.com/u/100305526/permanent/rf-analysis/viewshed.png "Point-Viewshed Analysis")
+![Viewshed Analysis](https://raw.githubusercontent.com/inveneo/RFAnalysisJS/master/images/viewshed.png "Point-Viewshed Analysis")
 
 ###  Google Maps API for Business account
 
