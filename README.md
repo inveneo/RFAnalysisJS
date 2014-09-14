@@ -55,7 +55,7 @@ The resulting image shows the path between the two points with the first Fresnel
 
 ##### Example of Point-Point Link Analysis
 
-![Point-Point Link Analysis](https://dl.dropboxusercontent.com/u/100305526/permanent/rf-analysis/p2p.png "Point-Point Link Analysis")
+![Point-Point Link Analysis](https://raw.githubusercontent.com/inveneo/RFAnalysisJS/master/images/p2p.png)
 
 #### Viewshed Analysis
 
