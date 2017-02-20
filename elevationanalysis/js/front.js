@@ -81,20 +81,19 @@ function createRfAnalysis(dataPointsInt,tHeight1,tHeight2)
 
 function getElevationDataArray(lat1,long1,lat2,long2,dataPointsInt,currentLink)
 {
-	var dataResults ={};
-	var queryString = "http://maps.googleapis.com/maps/api/elevation/json?path=" + lat1+","+long1+"|"+lat2+","+long2+"&samples="+dataPointsInt+"&sensor=false";
-	var elevationArray={};
-	var googleRetObj = $.getJSON( queryString, function(data) {
-  
-        dataResults = data.results;
-      })
-      .done(function() { 
-      currentLink.elevationAnalysis(dataResults);
-       })
-      .fail(function() { })
-      .always(function() { });
-      
-	
+    var elevator = new google.maps.ElevationService;
+
+    var path = [
+        {lat: parseFloat(lat1), lng: parseFloat(long1)},
+        {lat: parseFloat(lat2), lng: parseFloat(long2)}];
+
+    elevator.getElevationAlongPath({
+        'path': path,
+        'samples': dataPointsInt
+    }, function(elevations, status) {
+        console.log(elevations);
+        currentLink.elevationAnalysis(elevations);
+    });
 }
 
 var map;

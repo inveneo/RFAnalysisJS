@@ -82,8 +82,8 @@ Link.prototype.elevationAnalysis = function (elevationObj)
   for(i=0; i<elevationObj.length; i++)
   {
 	  elevationArray.push(elevationObj[i].elevation);
-	  elevationLatArray.push(elevationObj[i].location.lat);
-	  elevationLngArray.push(elevationObj[i].location.lng);
+	  elevationLatArray.push(elevationObj[i].location.lat());
+	  elevationLngArray.push(elevationObj[i].location.lng());
   }
 
 	//create x axis array based on number of elevation points
