@@ -91,7 +91,6 @@ function getElevationDataArray(lat1,long1,lat2,long2,dataPointsInt,currentLink)
         'path': path,
         'samples': dataPointsInt
     }, function(elevations, status) {
-        console.log(elevations);
         currentLink.elevationAnalysis(elevations);
     });
 }
